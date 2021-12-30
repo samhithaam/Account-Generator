@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+/**
+ * A password generator based on given user information.
+ *
+ * <p>Purdue University -- CS18000 -- Fall 2021</p>
+ *
+ * @author Purdue CS
+ * @version September 15, 2021
+ */
+public class AccountGenerator {
+    static final String FIRST_NAME_QUESTION = "What's your first name?";
+    static final String LAST_NAME_QUESTION = "What's your last name?";
+    static final String AGE_QUESTION = "How old are you?";
+    static final String BIRTHDAY_QUESTION = "What is your birthday? Enter the month, " +
+            "the day and then the year (MM DD YYYY).";
+    static final String FINAL_USERNAME_SENTENCE = "The generated username is: ";
+    static final String FINAL_PASSWORD_SENTENCE = "The generated password is: ";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(FIRST_NAME_QUESTION);
+        String firstName = scanner.nextLine();
+        System.out.println(LAST_NAME_QUESTION);
+        String lastName = scanner.nextLine();
+        System.out.println(AGE_QUESTION);
+        int age = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println(BIRTHDAY_QUESTION);
+        String birthday = scanner.nextLine();
+
+        char ch = firstName.charAt(0);
+        char upperFirstName = Character.toUpperCase(ch);
+        char lastNameFirstChar = lastName.charAt(0);
+        char upperLastName = Character.toUpperCase( lastNameFirstChar );
+        String lowerLastName = lastName.substring(1,lastName.length());
+        String year = birthday.substring(6,10);
+        String userResult = upperFirstName + Character.toString(upperLastName )+ lowerLastName+ year;
+
+        int len = firstName.length()/2;
+        String halfFirstName = firstName.substring(0,len);
+        String firstLetterFirstName = halfFirstName.substring(0,1).toUpperCase() + halfFirstName.substring(1);
+
+        int lastNameSplit;
+        String lastNameEnd;
+
+        lastNameSplit = lastName.length()/2 ;
+        lastNameEnd = lastName.substring(lastNameSplit);
+
+        String month = birthday.substring(0,2);
+        int partOne = Integer.parseInt(month);
+        String day = birthday.substring(3,5);
+        int partTwo = Integer.parseInt(day);
+        String endYear = birthday.substring(6,10);
+        int partThree = Integer.parseInt(endYear);
+        int remainder = (partOne + partTwo + partThree) % 12;
+
+        String passwordResult = firstLetterFirstName + lastNameEnd + getAgeChar(age) + remainder;
+
+        System.out.print(FINAL_USERNAME_SENTENCE);
+        System.out.println(userResult);
+        System.out.print(FINAL_PASSWORD_SENTENCE);
+        System.out.println(passwordResult);
+    }
+    private static char getAgeChar(int age){
+        int ascii = (age % 26) + 'A';
+        char ageChar = (char) ascii;
+        return ageChar;
+    }
+}
